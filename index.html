@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional Weather Application - Real-time weather data at your fingertips">
+    <title>WeatherPro - Professional Weather Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">WeatherPro</h1>
+                <p class="app-subtitle">Real-time Weather Intelligence</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Search Section -->
+            <section class="search-section" aria-label="Weather Search">
+                <div class="search-container">
+                    <!-- Manual City Search -->
+                    <div class="input-group">
+                        <label for="city-input" class="input-label">Search by City</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                id="city-input" 
+                                class="city-input" 
+                                placeholder="Enter city name (e.g., London, New York)"
+                                autocomplete="off"
+                                aria-describedby="city-help"
+                            >
+                            <button 
+                                id="search-btn" 
+                                class="btn btn-primary" 
+                                aria-label="Search weather for the entered city"
+                            >
+                                Search
+                            </button>
+                        </div>
+                        <small id="city-help" class="helper-text">Press Enter or click Search to fetch weather data</small>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="divider" aria-hidden="true">or</div>
+
+                    <!-- Geolocation Button -->
+                    <div class="geolocation-group">
+                        <button 
+                            id="location-btn" 
+                            class="btn btn-secondary" 
+                            aria-label="Use your current location to fetch weather"
+                        >
+                            📍 Use My Location
+                        </button>
+                        <small class="helper-text">Allow browser access to your location</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading hidden" aria-live="polite" aria-label="Loading weather data">
+                <div class="spinner"></div>
+                <p>Fetching weather data...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div 
+                id="error-message" 
+                class="error-message hidden" 
+                role="alert" 
+                aria-live="assertive"
+                aria-label="Error notification"
+            ></div>
+
+            <!-- Weather Display Section -->
+            <section id="weather-section" class="weather-section hidden" aria-label="Current Weather Information">
+                <!-- Location & Time Info -->
+                <div class="location-info">
+                    <h2 id="location-name" class="location-name">--</h2>
+                    <p id="weather-time" class="weather-time">--</p>
+                </div>
+
+                <!-- Main Weather Card -->
+                <div class="weather-card">
+                    <!-- Left: Temperature & Condition -->
+                    <div class="weather-main">
+                        <div class="temperature-group">
+                            <div class="temperature-display">
+                                <span id="temperature" class="temperature">--</span>
+                                <span class="temperature-unit">°C</span>
+                            </div>
+                            <button 
+                                id="temp-toggle" 
+                                class="temp-toggle" 
+                                aria-label="Toggle between Celsius and Fahrenheit"
+                                title="Click to switch temperature unit"
+                            >
+                                Switch to °F
+                            </button>
+                        </div>
+                        <p id="weather-description" class="weather-description">--</p>
+                        <p id="weather-details" class="weather-details">Feels like <span id="feels-like">--</span>°</p>
+                    </div>
+
+                    <!-- Right: Weather Icon & Additional Info -->
+                    <div class="weather-icon-section">
+                        <img 
+                            id="weather-icon" 
+                            class="weather-icon" 
+                            src="" 
+                            alt="Weather icon"
+                            width="120"
+                            height="120"
+                        >
+                    </div>
+                </div>
+
+                <!-- Weather Details Grid -->
+                <div class="weather-details-grid">
+                    <!-- Humidity -->
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <span class="detail-icon">💧</span>
+                            <h3 class="detail-title">Humidity</h3>
+                        </div>
+                        <p id="humidity-value" class="detail-value">-- %</p>
+                        <p class="detail-description">Water vapor in air</p>
+                    </div>
+
+                    <!-- Wind Speed -->
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <span class="detail-icon">💨</span>
+                            <h3 class="detail-title">Wind Speed</h3>
+                        </div>
+                        <p id="wind-speed-value" class="detail-value">-- m/s</p>
+                        <p class="detail-description">Current wind velocity</p>
+                    </div>
+
+                    <!-- Pressure -->
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <span class="detail-icon">🔽</span>
+                            <h3 class="detail-title">Pressure</h3>
+                        </div>
+                        <p id="pressure-value" class="detail-value">-- mb</p>
+                        <p class="detail-description">Atmospheric pressure</p>
+                    </div>
+
+                    <!-- Visibility -->
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <span class="detail-icon">👁️</span>
+                            <h3 class="detail-title">Visibility</h3>
+                        </div>
+                        <p id="visibility-value" class="detail-value">-- km</p>
+                        <p class="detail-description">Visibility distance</p>
+                    </div>
+
+                    <!-- UV Index -->
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <span class="detail-icon">☀️</span>
+                            <h3 class="detail-title">UV Index</h3>
+                        </div>
+                        <p id="uv-index-value" class="detail-value">-- </p>
+                        <p class="detail-description">Sun exposure level</p>
+                    </div>
+
+                    <!-- Cloud Coverage -->
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <span class="detail-icon">☁️</span>
+                            <h3 class="detail-title">Cloud Cover</h3>
+                        </div>
+                        <p id="clouds-value" class="detail-value">-- %</p>
+                        <p class="detail-description">Cloud coverage</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Welcome Message (when no weather is displayed) -->
+            <div id="welcome-message" class="welcome-message">
+                <div class="welcome-icon">🌤️</div>
+                <h2>Welcome to WeatherPro</h2>
+                <p>Search for a city or use your location to get started with real-time weather information.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Data provided by <a href="https://openweathermap.org" target="_blank" rel="noopener noreferrer">OpenWeather</a></p>
+            <p class="footer-note">WeatherPro © 2026. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
